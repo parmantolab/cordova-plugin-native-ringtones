@@ -12,6 +12,8 @@ import java.util.*;
 import android.content.ContentValues;
 import android.content.res.AssetManager;
 import android.media.RingtoneManager;
+import android.media.Ringtone;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -30,7 +32,12 @@ public class NativeRingtones extends CordovaPlugin {
         if (action.equals("get")){
             return this.get(args.getString(0), callbackContext);
         }
-
+        if (action.equals("play")){
+            return this.play(args.getString(0), callbackContext);
+        }
+        if (action.equals("stop")){
+            return this.stop(args.getString(0), callbackContext);
+        }
         return false;
     }
 
@@ -78,6 +85,32 @@ public class NativeRingtones extends CordovaPlugin {
             callbackContext.success(ringtoneList);
         } else {
             callbackContext.error("Can't get system Ringtone list");
+        }
+
+        return true;
+    }
+
+    private boolean play(String ringtoneUri, final CallbackContext callbackContext) throws JSONException{
+        MediaPlayer ringtoneSound = MediaPlayer.create(this.cordova.getActivity().getApplicationContext(), Uri.parse(ringtoneUri));
+
+        if (ringtoneSound != null) {
+            ringtoneSound.start();
+            callbackContext.success("Play the ringtone succennfully!");
+        } else{
+            callbackContext.error("Can't play the ringtone!");
+        }
+
+        return true;
+    }
+
+    private boolean stop(String ringtoneUri, final CallbackContext callbackContext) throws JSONException{
+        MediaPlayer ringtoneSound = MediaPlayer.create(this.cordova.getActivity().getApplicationContext(), Uri.parse(ringtoneUri));
+
+        if (ringtoneSound != null) {
+            ringtoneSound.stop();
+            callbackContext.success("Stop the ringtone succennfully!");
+        } else{
+            callbackContext.error("Can't stop the ringtone!");
         }
 
         return true;
