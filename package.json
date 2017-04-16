@@ -13,6 +13,9 @@
     "type": "git",
     "url": "git+https://github.com/TongZhangzt/cordova-plugin-native-ringtones.git"
   },
+  "dependencies": {
+    "cordova-plugin-media": "*"
+  },
   "keywords": [
     "cordova",
     "system sound",
